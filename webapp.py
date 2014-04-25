@@ -19,10 +19,8 @@ def onepoint(teamname):
     db_session.commit()
     return "Team %s new score %d" % (teamname, newScore)
 
-##disabled until redis is added##
-#@app.route("/<teamname>/plus5")
+@app.route("/<teamname>/plus5")
 def fivepoint(teamname):
-    ###check secret from args against secret stored in redis###
     q = db_session.query(TeamScore).filter(TeamScore.teamName == teamname)
     r = q.all()
     newScore = r[0].score + 5
@@ -32,13 +30,9 @@ def fivepoint(teamname):
     db_session.commit()
     return "Team %s new score %d" % (teamname, newScore)
 
-@app.route("/votefor/<teamname>")
-def votefor(teamname):
-    ###put secret in redis###
-    return renderTemplate("vote.html", TEAMNAME=teamname)
-
 @app.route("/<teamname>/plus50")
 def fiftypoint(teamname):
+##needs to check secret against stored secret in db##
     q = db_session.query(TeamScore).filter(TeamScore.teamName == teamname)
     r = q.all()
     newScore = r[0].score + 50
@@ -47,6 +41,14 @@ def fiftypoint(teamname):
     print newScore
     db_session.commit()
     return "Team %s new score %d" % (teamname, newScore)
+
+@app.route("/<teamname>/votefor")
+def votefor(teamname):
+###put secret in db and render in template###
+    q = db_session.query(TeamScore).filter(TeamScore.teamName == teamname)
+    q.update({TeamScore.secret : random.randrange(100)})
+    db_session.commit()
+    return renderTemplate("vote.html", TEAMNAME=teamname, SECRET=secret)
 
 @app.route("/supersecret/create/<teamname>")
 def create(teamname):
