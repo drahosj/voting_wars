@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask import request
 import random
 from db import db_session, init_db
 from models import TeamScore
@@ -35,8 +36,18 @@ def fiftypoint(teamname):
 ##needs to check secret against stored secret in db##
     q = db_session.query(TeamScore).filter(TeamScore.teamName == teamname)
     r = q.all()
+    
+    provided_secret = request.args.get('secret');
+
+    new_secret = random.randrange(100)
+
+
+    if r[0].secret != int(provided_secret):
+        q.update({TeamScore.secret : new_secret})
+        return "Wrong Secret! (provided %s, expected %d)" % (provided_secret, r[0].secret)
+
     newScore = r[0].score + 50
-    q.update({TeamScore.score : newScore})
+    q.update({TeamScore.score : newScore, TeamScore.secret : new_secret})
     print r[0]
     print newScore
     db_session.commit()
@@ -46,9 +57,10 @@ def fiftypoint(teamname):
 def votefor(teamname):
 ###put secret in db and render in template###
     q = db_session.query(TeamScore).filter(TeamScore.teamName == teamname)
-    q.update({TeamScore.secret : random.randrange(100)})
+    secret = random.randrange(100)
+    q.update({TeamScore.secret : secret})
     db_session.commit()
-    return renderTemplate("vote.html", TEAMNAME=teamname, SECRET=secret)
+    return render_template("vote.html", TEAMNAME=teamname, SECRET=secret)
 
 @app.route("/supersecret/create/<teamname>")
 def create(teamname):
