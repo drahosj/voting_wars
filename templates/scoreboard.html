@@ -45,12 +45,11 @@
 			<h3>Click your team to the top:</h3>
 			<br />
 
-			{% for x in range(1, 35) %}
-				<a href="{{ jinja_4_team_URL }}"> <input type="submit" class="btn btn-lg btn-success" name="vote" value="team {{ x }}"> </a>
+			{% for team in SCORES %}
+				<a href="/{{ team.teamName }}/votefor"> <input type="submit" class="btn
+btn-lg btn-success" name="vote" value="{{ team.teamName }}"> </a>
 			{% endfor %}  
 			     
-
-        <input type="submit" class="btn btn-lg btn-action" name="vote" value="team {{ x }}">
 
 			<h4>
 			  

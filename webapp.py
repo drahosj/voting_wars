@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask import request
+from flask import request, redirect
 import random
 from db import db_session, init_db
 from models import TeamScore
@@ -18,7 +18,8 @@ def onepoint(teamname):
     print r[0]
     print newScore
     db_session.commit()
-    return "Team %s new score %d" % (teamname, newScore)
+    return redirect("/")
+    #return "Team %s new score %d" % (teamname, newScore)
 
 @app.route("/<teamname>/plus5")
 def fivepoint(teamname):
@@ -29,7 +30,8 @@ def fivepoint(teamname):
     print r[0]
     print newScore
     db_session.commit()
-    return "Team %s new score %d" % (teamname, newScore)
+    return redirect("/")
+    #return "Team %s new score %d" % (teamname, newScore)
 
 @app.route("/<teamname>/plus50")
 def fiftypoint(teamname):
@@ -44,14 +46,16 @@ def fiftypoint(teamname):
 
     if r[0].secret != int(provided_secret):
         q.update({TeamScore.secret : new_secret})
-        return "Wrong Secret! (provided %s, expected %d)" % (provided_secret, r[0].secret)
+        return redirect("/")
+#        return "Wrong Secret! (provided %s, expected %d)" % (provided_secret, r[0].secret)
 
     newScore = r[0].score + 50
     q.update({TeamScore.score : newScore, TeamScore.secret : new_secret})
     print r[0]
     print newScore
     db_session.commit()
-    return "Team %s new score %d" % (teamname, newScore)
+    return redirect("/")
+    #return "Team %s new score %d" % (teamname, newScore)
 
 @app.route("/<teamname>/votefor")
 def votefor(teamname):
@@ -87,4 +91,4 @@ def scores():
 
 if __name__ == "__main__":
     app.debug = True
-    app.run()
+    app.run("0.0.0.0")
