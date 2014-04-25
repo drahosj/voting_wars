@@ -46,7 +46,7 @@
 			<br />
 
 			{% for x in range(1, 35) %}
-				<input type="submit" class="btn btn-lg btn-success" name="vote" value="team {{ x }}">
+				<a href="{{ jinja_4_team_URL }}"> <input type="submit" class="btn btn-lg btn-success" name="vote" value="team {{ x }}"> </a>
 			{% endfor %}  
 			     
 
