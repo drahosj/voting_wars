@@ -14,6 +14,23 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/carousel.css" rel="stylesheet">
+
+    <script>
+    	window.onload = function()
+      {
+  			$('#hide div').hide();
+  			sleep 5; 
+  			$('#hide div').show();
+
+    	}
+      window.onload = function()
+      {
+        $('#hide2 div').hide();
+        sleep 10; 
+        $('#hide2 div').show();
+
+      }
+    </script>
   </head>
 <!-- NAVBAR
 ================================================== -->
@@ -45,8 +62,8 @@
 			 Voting for {{TEAMNAME}}
 				<br/>
 				<a href="/{{ TEAMNAME }}/plus1">Add One Point</a><br/>
-				<a href="/{{ TEAMNAME }}/plus5">Add 5 Points. Pretend this is hidden for 5 seconds</a> <br/>
-				<a href="/{{ TEAMNAME }}/plus50?secret={{ SECRET }}">Add 50 Points. Pretend this is hidden for 10 seconds</a> <br/> 
+				<div id="hide"> <a href="/{{ TEAMNAME }}/plus5">Add 5 Points. Pretend this is hidden for 5 seconds</a> <br/> </div>
+				<div id="hide2"> <a href="/{{ TEAMNAME }}/plus50?secret={{ SECRET }}">Add 50 Points. Pretend this is hidden for 10 seconds</a> <br/> </div>
   			</h4>
 		</div>
 
