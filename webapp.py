@@ -42,12 +42,12 @@ def votefor(teamname):
     r.set("secret:%s" % teamname, secret)
     return render_template("vote.html", TEAMNAME=teamname, SECRET=secret)
 
-@app.route("/supersecret/create/<teamname>")
+#@app.route("/supersecret/create/<teamname>")
 def create(teamname):
     r.set(("score:%s" % teamname), 0)
     return "Team %s created" % teamname
 
-@app.route("/supersecret/delete/<teamname>")
+#@app.route("/supersecret/delete/<teamname>")
 def delete(teamname):
     r.delete(("score:%s" % teamname))
     return "Team %s deleted" % teamname

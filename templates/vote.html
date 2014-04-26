@@ -16,18 +16,26 @@
     <link href="/static/carousel.css" rel="stylesheet">
 
     <script>
+      function sleep(millis, callback) {
+         setTimeout(function()
+            { callback(); }
+        , millis);
+      }
+
     	window.onload = function()
       {
-  			$('#hide div').hide();
-  			sleep 5; 
-  			$('#hide div').show();
+  			$('#hide').hide();
+        console.debug("Hiding div");
+  			sleep(5000, function() { 
+  			  $('#hide').show();
+          console.debug("showing div");
+        });
 
-    	}
-      window.onload = function()
-      {
-        $('#hide2 div').hide();
-        sleep 10; 
-        $('#hide2 div').show();
+        $('#hide2').hide();
+        sleep(10000, function() { 
+        console.debug("Showing div");
+          $('#hide2').show();
+        });
 
       }
     </script>
@@ -62,8 +70,9 @@
 			 Voting for {{TEAMNAME}}
 				<br/>
 				<a href="/{{ TEAMNAME }}/plus1">Add One Point</a><br/>
-				<div id="hide"> <a href="/{{ TEAMNAME }}/plus5">Add 5 Points. Pretend this is hidden for 5 seconds</a> <br/> </div>
-				<div id="hide2"> <a href="/{{ TEAMNAME }}/plus50?secret={{ SECRET }}">Add 50 Points. Pretend this is hidden for 10 seconds</a> <br/> </div>
+				<div id="hide"> <a id="hide" href="/{{ TEAMNAME }}/plus5">Add 5 Points.</a> <br/> </div>
+				<div id="hide2"> <a id="hide2" href="/{{ TEAMNAME }}/plus50?secret={{
+SECRET }}">Add 50 Points.</a> <br/> </div>
   			</h4>
 		</div>
 
