@@ -45,17 +45,17 @@
 			<h3>Click your team to the top:</h3>
 			<br />
 
-			{% for team in SCORES %}
-				<a href="/{{ team.teamName }}/votefor"> <input type="submit" class="btn
-btn-lg btn-success" name="vote" value="{{ team.teamName }}"> </a>
+			{% for team in TEAMS %}
+				<a href="/{{ team.name }}/votefor"> <input type="submit" class="btn
+btn-lg btn-success" name="vote" value="{{ team.name }}"> </a>
 			{% endfor %}  
 			     
 
 			<h4>
 			  
-			  {% for team in SCORES %}
+			  {% for team in TEAMS %}
   				<p>
-  				{{ team.teamName }} : {{ team.score }}
+  				{{ team.name }} : {{ team.score }}
   				</p>
   			  {% endfor %}
   			
