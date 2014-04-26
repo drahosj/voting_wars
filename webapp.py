@@ -7,14 +7,18 @@ r = StrictRedis(host='localhost', port=6379, db=0)
 
 app = Flask(__name__)
 
+valid_teams = []
+
 @app.route("/<teamname>/plus1")
 def onepoint(teamname):
-    r.incrby("score:%s" % teamname, 1)
+    if teamname in valid_teams:
+        r.incrby("score:%s" % teamname, 1)
     return redirect("/")
 
 @app.route("/<teamname>/plus5")
 def fivepoint(teamname):
-    r.incrby("score:%s" % teamname, 5)
+    if teamname in valid_teams:
+        r.incrby("score:%s" % teamname, 5)
     return redirect("/")
 
 @app.route("/<teamname>/plus50")
@@ -32,7 +36,8 @@ def fiftypoint(teamname):
         return redirect("/")
 
     r.set("secret:%s" % teamname, new_secret)
-    r.incrby("score:%s" % teamname, 50)
+    if teamname in valid_teams:
+        r.incrby("score:%s" % teamname, 50)
     return redirect("/")
 
 @app.route("/<teamname>/votefor")
@@ -58,7 +63,7 @@ class Team():
         self.name = name
         self.score = score
     def getScore(self):
-        return self.score
+        return int(self.score)
 
 @app.route("/")
 def scores():
@@ -74,4 +79,10 @@ def scores():
 
 if __name__ == "__main__":
     app.debug = True
+    for i in range (1, 32):
+        valid_teams.append("Team %d" % i)
+        valid_teams.append("Team RED")
+
+    print valid_teams
     app.run("0.0.0.0")
+
