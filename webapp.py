@@ -9,19 +9,19 @@ app = Flask(__name__)
 
 valid_teams = []
 
-@app.route("/<teamname>/plus1")
+#@app.route("/<teamname>/plus1")
 def onepoint(teamname):
     if teamname in valid_teams:
         r.incrby("score:%s" % teamname, 1)
     return redirect("/")
 
-@app.route("/<teamname>/plus5")
+#@app.route("/<teamname>/plus5")
 def fivepoint(teamname):
     if teamname in valid_teams:
         r.incrby("score:%s" % teamname, 5)
     return redirect("/")
 
-@app.route("/<teamname>/plus50")
+#@app.route("/<teamname>/plus50")
 def fiftypoint(teamname):
 ##needs to check secret against stored secret in db##
     provided_secret = request.args.get('secret');
@@ -79,10 +79,10 @@ def scores():
 
 if __name__ == "__main__":
     app.debug = True
-    for i in range (1, 32):
-        valid_teams.append("Team %d" % i)
-        valid_teams.append("Team RED")
 
     print valid_teams
     app.run("0.0.0.0")
 
+for i in range (1, 32):
+    valid_teams.append("Team %d" % i)
+    valid_teams.append("Team RED")
